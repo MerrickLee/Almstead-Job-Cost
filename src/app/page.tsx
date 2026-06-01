@@ -47,16 +47,32 @@ export default function HomePage() {
 
   useEffect(() => {
     const supabase = createClient();
+    let cancelled = false;
+
+    // Log env status for debugging (won't trigger red screen)
+    console.warn('Supabase URL initialized:', !!process.env.NEXT_PUBLIC_SUPABASE_URL);
 
     async function checkAuth() {
       try {
-        const { data: { user } } = await supabase.auth.getUser();
+        // Race the getUser call against a timeout to prevent infinite loading
+        const result = await Promise.race([
+          supabase.auth.getUser(),
+          new Promise<never>((_, reject) =>
+            setTimeout(() => reject(new Error('Auth check timed out')), 8000)
+          ),
+        ]);
+
+        if (cancelled) return;
+
+        const user = result.data?.user;
         if (user) {
           const { data: profile } = await supabase
             .from('profiles')
             .select('*')
             .eq('id', user.id)
             .single();
+
+          if (cancelled) return;
 
           setAuth(
             user.id,
@@ -65,38 +81,49 @@ export default function HomePage() {
           );
           setIsAuthenticated(true);
         }
-      } catch {
-        // Supabase unavailable — will show login page
+      } catch (err) {
+        console.warn('Error checking auth:', err);
       }
-      setAuthChecked(true);
+      if (!cancelled) setAuthChecked(true);
     }
 
     checkAuth();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        if (event === 'SIGNED_IN' && session?.user) {
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('*')
-            .eq('id', session.user.id)
-            .single();
+        try {
+          if (event === 'SIGNED_IN' && session?.user) {
+            const { data: profile } = await supabase
+              .from('profiles')
+              .select('*')
+              .eq('id', session.user.id)
+              .single();
 
-          setAuth(
-            session.user.id,
-            (profile?.role as 'sales' | 'admin') || 'sales',
-            session.user.email || null
-          );
-          setIsAuthenticated(true);
-        } else if (event === 'SIGNED_OUT') {
-          setAuth(null, 'sales', null);
-          setIsAuthenticated(false);
-          setDemoMode(false);
+            setAuth(
+              session.user.id,
+              (profile?.role as 'sales' | 'admin') || 'sales',
+              session.user.email || null
+            );
+            setIsAuthenticated(true);
+          } else if (event === 'SIGNED_OUT') {
+            setAuth(null, 'sales', null);
+            setIsAuthenticated(false);
+            setDemoMode(false);
+          }
+        } catch (err) {
+          console.warn('Error handling auth state change:', err);
+          if (session?.user) {
+            setAuth(session.user.id, 'sales', session.user.email || null);
+            setIsAuthenticated(true);
+          }
         }
       }
     );
 
-    return () => subscription.unsubscribe();
+    return () => {
+      cancelled = true;
+      subscription.unsubscribe();
+    };
   }, [setAuth]);
 
   // Load data from Supabase when authenticated
@@ -235,11 +262,38 @@ export default function HomePage() {
   if (!authChecked) return <LoadingScreen />;
 
   if (!isAuthenticated && !demoMode) {
-    return <LoginPage onDemoMode={() => {
-      setDemoMode(true);
-      setAuth('demo-user', 'admin', 'demo@almstead.com');
-      setIsAuthenticated(false); // Not truly authenticated
-    }} />;
+    return <LoginPage
+      onDemoMode={() => {
+        setDemoMode(true);
+        setAuth('demo-user', 'admin', 'demo@almstead.com');
+        setIsAuthenticated(false); // Not truly authenticated
+      }}
+      onLoginSuccess={async (userId, email) => {
+        console.warn('onLoginSuccess triggered for:', userId, email);
+        try {
+          const supabase = createClient();
+          console.warn('onLoginSuccess: fetching profile...');
+          const { data: profile, error } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('id', userId)
+            .single();
+
+          console.warn('onLoginSuccess: profile fetch result:', { profile, error });
+          setAuth(
+            userId,
+            (profile?.role as 'sales' | 'admin') || 'sales',
+            email
+          );
+          console.warn('onLoginSuccess: setAuth called, setting isAuthenticated to true...');
+          setIsAuthenticated(true);
+        } catch (err) {
+          console.warn('Error fetching profile on login success:', err);
+          setAuth(userId, 'sales', email);
+          setIsAuthenticated(true);
+        }
+      }}
+    />;
   }
 
   return <AppShell />;
@@ -249,7 +303,7 @@ export default function HomePage() {
 // Login Page
 // =============================================================================
 
-function LoginPage({ onDemoMode }: { onDemoMode: () => void }) {
+function LoginPage({ onDemoMode, onLoginSuccess }: { onDemoMode: () => void; onLoginSuccess: (userId: string, email: string) => void }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -258,24 +312,38 @@ function LoginPage({ onDemoMode }: { onDemoMode: () => void }) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const trimmedEmail = email.trim();
+    console.warn('handleSubmit triggered. Email:', trimmedEmail);
     setError('');
     setLoading(true);
 
-    const supabase = createClient();
+    try {
+      const supabase = createClient();
+      console.warn('handleSubmit: calling signInWithPassword...');
 
-    if (mode === 'login') {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) setError(error.message);
-    } else {
-      const { error } = await supabase.auth.signUp({
-        email, password,
-        options: { data: { full_name: '' } },
-      });
-      if (error) setError(error.message);
-      else setError('Check your email for a confirmation link.');
+      if (mode === 'login') {
+        const { data, error } = await supabase.auth.signInWithPassword({ email: trimmedEmail, password });
+        console.warn('handleSubmit: signInWithPassword result:', { user: data?.user, error });
+        if (error) {
+          setError(error.message);
+        } else if (data?.user) {
+          console.warn('handleSubmit: calling onLoginSuccess...');
+          onLoginSuccess(data.user.id, data.user.email || '');
+        }
+      } else {
+        const { error } = await supabase.auth.signUp({
+          email, password,
+          options: { data: { full_name: '' } },
+        });
+        if (error) setError(error.message);
+        else setError('Check your email for a confirmation link.');
+      }
+    } catch (err: any) {
+      console.error('Error during handleSubmit:', err);
+      setError(err?.message || 'An unexpected error occurred during authentication.');
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   return (
@@ -305,7 +373,7 @@ function LoginPage({ onDemoMode }: { onDemoMode: () => void }) {
         <form onSubmit={handleSubmit}>
           <div style={{ marginBottom: 12 }}>
             <input type="email" placeholder="Email" value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value.trim())}
               className="input-field"
               style={{ fontFamily: 'var(--font-sans)', padding: '12px 16px', fontSize: 14 }}
               required />

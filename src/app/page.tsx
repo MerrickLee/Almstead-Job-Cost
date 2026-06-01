@@ -367,7 +367,7 @@ function LoginPage({ onLoginSuccess }: { onLoginSuccess: (userId: string, email:
 
         <form onSubmit={handleSubmit}>
           <div style={{ marginBottom: 12 }}>
-            <input type="email" placeholder="Email" value={email}
+            <input type="text" placeholder="Email" value={email}
               onChange={(e) => setEmail(e.target.value.trim())}
               className="input-field"
               style={{ fontFamily: 'var(--font-sans)', padding: '12px 16px', fontSize: 14 }}

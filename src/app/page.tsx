@@ -263,11 +263,6 @@ export default function HomePage() {
 
   if (!isAuthenticated && !demoMode) {
     return <LoginPage
-      onDemoMode={() => {
-        setDemoMode(true);
-        setAuth('demo-user', 'admin', 'demo@almstead.com');
-        setIsAuthenticated(false); // Not truly authenticated
-      }}
       onLoginSuccess={async (userId, email) => {
         console.warn('onLoginSuccess triggered for:', userId, email);
         try {
@@ -303,7 +298,7 @@ export default function HomePage() {
 // Login Page
 // =============================================================================
 
-function LoginPage({ onDemoMode, onLoginSuccess }: { onDemoMode: () => void; onLoginSuccess: (userId: string, email: string) => void }) {
+function LoginPage({ onLoginSuccess }: { onLoginSuccess: (userId: string, email: string) => void }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -417,20 +412,6 @@ function LoginPage({ onDemoMode, onLoginSuccess }: { onDemoMode: () => void; onL
               </button>
             </>
           )}
-        </div>
-
-        {/* Demo Mode */}
-        <div style={{
-          marginTop: 24, paddingTop: 24, borderTop: '1px solid var(--color-border)',
-        }}>
-          <button onClick={onDemoMode}
-            className="btn-ghost"
-            style={{ width: '100%', justifyContent: 'center', padding: '12px 20px' }}>
-            Preview with demo data →
-          </button>
-          <div style={{ fontSize: 11, color: 'var(--color-muted)', marginTop: 8 }}>
-            All 75 employees · 203 equipment · Live formulas
-          </div>
         </div>
       </div>
     </div>

@@ -90,7 +90,7 @@ export default function HomePage() {
     checkAuth();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      async (event: any, session: any) => {
         try {
           if (event === 'SIGNED_IN' && session?.user) {
             const { data: profile } = await supabase
@@ -171,7 +171,7 @@ export default function HomePage() {
         emergency_mult: Number(whatIfData.emergency_mult),
       } : null;
 
-      const classifications = (classificationsData || []).map((c) => ({
+      const classifications = (classificationsData || []).map((c: any) => ({
         ...c,
         reg_wage: Number(c.reg_wage),
         reg_supp: Number(c.reg_supp),
@@ -179,7 +179,7 @@ export default function HomePage() {
         ot_supp: Number(c.ot_supp),
       }));
 
-      const branches = (branchesData || []).map((b) => ({
+      const branches = (branchesData || []).map((b: any) => ({
         ...b,
         wc_rate: Number(b.wc_rate),
         pr_rate: Number(b.pr_rate),
@@ -188,13 +188,13 @@ export default function HomePage() {
         storm_bonus_per_8h: Number(b.storm_bonus_per_8h),
       }));
 
-      const employees = (employeesData || []).map((e) => ({
+      const employees = (employeesData || []).map((e: any) => ({
         ...e,
         pay_per_hr: Number(e.pay_per_hr),
         supplemental_per_hr: Number(e.supplemental_per_hr),
       }));
 
-      const equipment = (equipmentData || []).map((eq) => ({
+      const equipment = (equipmentData || []).map((eq: any) => ({
         ...eq,
         fuel_gph: Number(eq.fuel_gph),
         annual_maint: Number(eq.annual_maint),
@@ -205,7 +205,7 @@ export default function HomePage() {
       setData({ whatIf, classifications, branches, employees, equipment, laborSelections });
 
       if (branches.length > 0) {
-        initCrews(branches.map((b) => b.id));
+        initCrews(branches.map((b: any) => b.id));
       }
 
       setDataLoaded(true);
@@ -223,7 +223,7 @@ export default function HomePage() {
     const channel = supabase
       .channel('realtime-data')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'what_if' }, () => {
-        supabase.from('what_if').select('*').single().then(({ data }) => {
+        supabase.from('what_if').select('*').single().then(({ data }: any) => {
           if (data) {
             setData({
               whatIf: {
@@ -237,19 +237,19 @@ export default function HomePage() {
         });
       })
       .on('postgres_changes', { event: '*', schema: 'public', table: 'employees' }, () => {
-        supabase.from('employees').select('*').eq('active', true).order('last_name').then(({ data }) => {
+        supabase.from('employees').select('*').eq('active', true).order('last_name').then(({ data }: any) => {
           if (data) {
             setData({
-              employees: data.map((e) => ({ ...e, pay_per_hr: Number(e.pay_per_hr), supplemental_per_hr: Number(e.supplemental_per_hr) })),
+              employees: data.map((e: any) => ({ ...e, pay_per_hr: Number(e.pay_per_hr), supplemental_per_hr: Number(e.supplemental_per_hr) })),
             });
           }
         });
       })
       .on('postgres_changes', { event: '*', schema: 'public', table: 'equipment' }, () => {
-        supabase.from('equipment').select('*').eq('active', true).order('truck_number').then(({ data }) => {
+        supabase.from('equipment').select('*').eq('active', true).order('truck_number').then(({ data }: any) => {
           if (data) {
             setData({
-              equipment: data.map((eq) => ({ ...eq, fuel_gph: Number(eq.fuel_gph), annual_maint: Number(eq.annual_maint), annual_lic: Number(eq.annual_lic), days_used_per_year: Number(eq.days_used_per_year) })),
+              equipment: data.map((eq: any) => ({ ...eq, fuel_gph: Number(eq.fuel_gph), annual_maint: Number(eq.annual_maint), annual_lic: Number(eq.annual_lic), days_used_per_year: Number(eq.days_used_per_year) })),
             });
           }
         });

@@ -112,7 +112,7 @@ export default function CrewsTab({ isAdmin }: { isAdmin: boolean }) {
       {/* HEADLINE METRICS */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 24 }}>
         <MetricCard label="Hourly Cost" value={fmt$(result.totals.costPerHr)} sub={fmt$0(result.totals.costDay) + ' / 8-hr day'} color="var(--color-pine)" />
-        <MetricCard label="Profit @ 25%" value={fmt$(result.totals.profitPerHr)} sub={fmt$0(result.totals.profitDay) + ' / 8-hr day'} color="var(--color-ochre)" />
+        <MetricCard label={`Profit @ ${ctx.whatIf.profit_pct * 100}%`} value={fmt$(result.totals.profitPerHr)} sub={fmt$0(result.totals.profitDay) + ' / 8-hr day'} color="var(--color-ochre)" />
         <MetricCard label="Billable Hourly" value={fmt$(result.totals.billPerHr)} sub={fmt$0(result.totals.billDay) + ' / 8-hr day'} color="var(--color-emerald)" highlight />
         <MetricCard label="Emergency Rate" value={fmt$(result.totals.emergPerHr)} sub={`@ ${ctx.whatIf.emergency_mult}× cost mult.`} color="var(--color-rust)" />
       </div>

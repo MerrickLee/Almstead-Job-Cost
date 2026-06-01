@@ -1,0 +1,382 @@
+@import "tailwindcss";
+
+/* ============================================================
+   ALMSTEAD BRAND DESIGN SYSTEM
+   ============================================================ */
+
+@theme {
+  /* Greens */
+  --color-forest: #0F2419;
+  --color-pine: #0E3A28;
+  --color-emerald: #0E7C3A;
+  --color-sage: #7FA589;
+  --color-fern: #B8D9A8;
+  --color-mist: #D9E8C9;
+  --color-lime: #7DBC3D;
+
+  /* Earth */
+  --color-yellow: #F2DD2C;
+  --color-ochre: #B88A2A;
+  --color-amber: #C99A48;
+  --color-rust: #C6471F;
+  --color-clay: #B17E4F;
+  --color-rose: #A86D5F;
+
+  /* Neutrals */
+  --color-paper: #FAFAF7;
+  --color-cream: #F4F2EA;
+  --color-butter: #FBF5E3;
+  --color-border: #E5E3DA;
+  --color-border-dk: #C9C5B6;
+  --color-muted: #6B6A5F;
+  --color-ink: #0F2419;
+
+  /* Font families */
+  --font-sans: 'Spline Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'DM Mono', 'SF Mono', Menlo, monospace;
+  --font-serif: Georgia, 'Times New Roman', serif;
+}
+
+/* ============================================================
+   BASE STYLES
+   ============================================================ */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--color-paper);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================================
+   TYPOGRAPHY
+   ============================================================ */
+
+.mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+
+.btn-primary {
+  background: var(--color-pine);
+  color: var(--color-paper);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+.btn-primary:hover {
+  background: var(--color-emerald);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(14, 58, 40, 0.25);
+}
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-accent {
+  background: var(--color-ochre);
+  color: var(--color-paper);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-accent:hover {
+  background: var(--color-amber);
+  transform: translateY(-1px);
+}
+.btn-accent:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-ink);
+  padding: 8px 14px;
+  border: 1px solid var(--color-border-dk);
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-ghost:hover {
+  border-color: var(--color-pine);
+  background: var(--color-cream);
+}
+
+.btn-danger {
+  background: transparent;
+  color: var(--color-rust);
+  padding: 4px 6px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-danger:hover {
+  background: rgba(198, 71, 31, 0.08);
+}
+
+/* ============================================================
+   FORM CONTROLS
+   ============================================================ */
+
+.input-field {
+  background: var(--color-butter);
+  border: 1px solid var(--color-border-dk);
+  padding: 6px 10px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--color-ink);
+  border-radius: 3px;
+  width: 100%;
+  transition: all 0.15s;
+}
+.input-field:focus {
+  outline: none;
+  border-color: var(--color-emerald);
+  background: var(--color-paper);
+  box-shadow: 0 0 0 3px rgba(184, 217, 168, 0.5);
+}
+.input-field:disabled,
+.input-field[readonly] {
+  background: transparent;
+  border-color: transparent;
+  color: var(--color-ink);
+  cursor: default;
+}
+
+.select-field {
+  background: var(--color-butter);
+  border: 1px solid var(--color-border-dk);
+  padding: 6px 10px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--color-ink);
+  border-radius: 3px;
+  width: 100%;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B6A5F' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 30px;
+}
+.select-field:focus {
+  outline: none;
+  border-color: var(--color-emerald);
+  box-shadow: 0 0 0 3px rgba(184, 217, 168, 0.5);
+}
+
+/* ============================================================
+   CARD
+   ============================================================ */
+
+.card {
+  background: var(--color-paper);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+}
+
+/* ============================================================
+   TABLES
+   ============================================================ */
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th {
+  text-align: left;
+  font-weight: 500;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-muted);
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-cream);
+}
+
+td {
+  padding: 8px 12px;
+  font-size: 13px;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--color-border);
+}
+
+tr:hover td {
+  background: rgba(244, 242, 234, 0.4);
+}
+
+tr.total-row td {
+  background: var(--color-pine);
+  color: var(--color-paper);
+  font-weight: 600;
+  border-bottom: none;
+}
+tr.total-row td:first-child {
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+tr.total-row td:last-child {
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+
+.num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+/* ============================================================
+   BADGES & PILLS
+   ============================================================ */
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.branch-pill {
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1.5px solid var(--color-border-dk);
+  background: transparent;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  transition: all 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.branch-pill:hover {
+  border-color: var(--color-pine);
+  background: var(--color-cream);
+}
+.branch-pill.active {
+  background: var(--color-pine);
+  color: var(--color-paper);
+  border-color: var(--color-pine);
+}
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.4s ease-out;
+}
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-cream);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-dk);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-muted);
+}
+
+/* ============================================================
+   MODAL OVERLAY
+   ============================================================ */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 36, 25, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  animation: fadeIn 0.15s ease-out;
+}
+
+.modal-content {
+  animation: slideUp 0.2s ease-out;
+}

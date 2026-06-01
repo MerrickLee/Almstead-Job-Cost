@@ -79,7 +79,7 @@ SUPABASE_SERVICE_ROLE_KEY=        # server-only, never exposed
 NEXT_PUBLIC_GA_MEASUREMENT_ID=    # G-XXXXXXXXXX
 NEXT_PUBLIC_AMPLITUDE_API_KEY=
 
-NEXT_PUBLIC_APP_URL=https://costing.almstead.com
+NEXT_PUBLIC_APP_URL=https://costing.almstead.ai
 ```
 
 ### 2.3 Project structure

@@ -90,33 +90,36 @@ export default function HomePage() {
     checkAuth();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event: any, session: any) => {
-        try {
-          if (event === 'SIGNED_IN' && session?.user) {
-            const { data: profile } = await supabase
-              .from('profiles')
-              .select('*')
-              .eq('id', session.user.id)
-              .single();
+      (event: any, session: any) => {
+        // Use setTimeout to avoid blocking the auth state update and causing a deadlock
+        setTimeout(async () => {
+          try {
+            if (event === 'SIGNED_IN' && session?.user) {
+              const { data: profile } = await supabase
+                .from('profiles')
+                .select('*')
+                .eq('id', session.user.id)
+                .single();
 
-            setAuth(
-              session.user.id,
-              (profile?.role as 'sales' | 'admin') || 'sales',
-              session.user.email || null
-            );
-            setIsAuthenticated(true);
-          } else if (event === 'SIGNED_OUT') {
-            setAuth(null, 'sales', null);
-            setIsAuthenticated(false);
-            setDemoMode(false);
+              setAuth(
+                session.user.id,
+                (profile?.role as 'sales' | 'admin') || 'sales',
+                session.user.email || null
+              );
+              setIsAuthenticated(true);
+            } else if (event === 'SIGNED_OUT') {
+              setAuth(null, 'sales', null);
+              setIsAuthenticated(false);
+              setDemoMode(false);
+            }
+          } catch (err) {
+            console.warn('Error handling auth state change:', err);
+            if (session?.user) {
+              setAuth(session.user.id, 'sales', session.user.email || null);
+              setIsAuthenticated(true);
+            }
           }
-        } catch (err) {
-          console.warn('Error handling auth state change:', err);
-          if (session?.user) {
-            setAuth(session.user.id, 'sales', session.user.email || null);
-            setIsAuthenticated(true);
-          }
-        }
+        }, 0);
       }
     );
 
@@ -318,8 +321,14 @@ function LoginPage({ onLoginSuccess }: { onLoginSuccess: (userId: string, email:
 
       if (mode === 'login') {
         const { data, error } = await supabase.auth.signInWithPassword({ email: trimmedEmail, password });
-        console.warn('handleSubmit: signInWithPassword result:', { user: data?.user, error });
         if (error) {
+          console.error('handleSubmit: signInWithPassword failed:', {
+            message: error.message,
+            status: error.status,
+            name: error.name,
+            cause: error.cause,
+            errorObj: error
+          });
           setError(error.message);
         } else if (data?.user) {
           console.warn('handleSubmit: calling onLoginSuccess...');

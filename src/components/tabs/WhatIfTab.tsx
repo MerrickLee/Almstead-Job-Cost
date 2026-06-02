@@ -59,13 +59,13 @@ export default function WhatIfTab({ isAdmin }: { isAdmin: boolean }) {
         </p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 24 }}>
+      <div className="responsive-grid-2">
         {/* Pricing assumptions */}
         <div className="card" style={{ padding: 24 }}>
           <h2 style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--color-pine)', margin: '0 0 14px' }}>
             Pricing assumptions
           </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12 }}>
+          <div className="pricing-fields-grid">
             <NumField label="Profit Percentage" value={whatIf.profit_pct} onChange={(v) => updateWhatIf('profit_pct', v)} suffix="(decimal)" />
             <NumField label="Contribution Margin %" value={whatIf.contrib_margin_pct} onChange={(v) => updateWhatIf('contrib_margin_pct', v)} suffix="(decimal)" />
             <NumField label="Fuel Cost / Gallon" value={whatIf.fuel_per_gal} onChange={(v) => updateWhatIf('fuel_per_gal', v)} prefix="$" />
@@ -94,7 +94,8 @@ export default function WhatIfTab({ isAdmin }: { isAdmin: boolean }) {
             Labor classifications & certified wages
           </h2>
         </div>
-        <table>
+        <div className="responsive-table-wrapper">
+          <table>
           <thead>
             <tr>
               <th>Classification</th>
@@ -143,6 +144,7 @@ export default function WhatIfTab({ isAdmin }: { isAdmin: boolean }) {
             ))}
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   );

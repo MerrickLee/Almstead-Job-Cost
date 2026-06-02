@@ -97,7 +97,7 @@ export default function EmployeesTab({ isAdmin }: { isAdmin: boolean }) {
         <h2 style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--color-pine)', margin: '0 0 14px' }}>
           Branch averages · {branch.name}
         </h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 12 }}>
+        <div className="averages-grid">
           {averages.map((a) => (
             <div key={a.label} style={{
               padding: 14, background: 'var(--color-paper)',
@@ -130,7 +130,7 @@ export default function EmployeesTab({ isAdmin }: { isAdmin: boolean }) {
       </div>
 
       <div className="card" style={{ overflow: 'hidden' }}>
-        <div style={{ overflowX: 'auto', maxHeight: 600 }}>
+        <div className="responsive-table-wrapper" style={{ maxHeight: 600 }}>
           <table style={{ minWidth: 920 }}>
             <thead style={{ position: 'sticky', top: 0, zIndex: 1 }}>
               <tr>
@@ -219,9 +219,9 @@ function AddEmployeeModal({ onAdd, onClose }: {
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="card modal-content" style={{ padding: 28, width: 480, background: 'var(--color-paper)' }} onClick={(e) => e.stopPropagation()}>
+      <div className="card modal-content modal-card-content" onClick={(e) => e.stopPropagation()}>
         <h3 style={{ fontSize: 22, fontWeight: 700, margin: '0 0 16px' }}>Add employee</h3>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12 }}>
+        <div className="modal-form-grid">
           <div>
             <label style={{ fontSize: 11, color: 'var(--color-muted)', fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase', display: 'block', marginBottom: 4 }}>Employee #</label>
             <input className="input-field" value={emp.emp_no} onChange={(e) => upd('emp_no', e.target.value)} />

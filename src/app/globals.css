@@ -380,3 +380,275 @@ tr.total-row td:last-child {
 .modal-content {
   animation: slideUp 0.2s ease-out;
 }
+
+/* ============================================================
+   RESPONSIVE LAYOUT CLASSES
+   ============================================================ */
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tabs-nav {
+  display: flex;
+  gap: 4px;
+  margin-top: 18px;
+  margin-bottom: -19px;
+}
+
+.main-content {
+  padding: 32px;
+  max-width: 1480px;
+  margin: 0 auto;
+}
+
+.footer-container {
+  margin-top: 60px;
+  padding: 20px 32px;
+  background: var(--color-forest);
+  color: var(--color-fern);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tab-intro {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 24px;
+}
+
+.tab-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.responsive-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.pricing-fields-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.wage-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+
+.averages-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+
+.loading-factors-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.search-actions-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  gap: 12px;
+}
+
+.modal-card-content {
+  padding: 28px;
+  width: 480px;
+  background: var(--color-paper);
+}
+
+.modal-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.responsive-table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.ror-card {
+  margin-top: 16px;
+  padding: 14px 20px;
+  background: var(--color-cream);
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Media Queries for Viewports <= 768px (Mobile & Portrait Tablet) */
+@media (max-width: 768px) {
+  .header-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  
+  .header-left {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .header-left > div {
+    border-left: none !important;
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+  }
+  
+  .header-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .tabs-nav {
+    width: calc(100% + 64px);
+    margin-left: -32px;
+    margin-right: -32px;
+    padding-left: 32px;
+    padding-right: 32px;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Hide scrollbar in Firefox */
+  }
+  
+  .tabs-nav::-webkit-scrollbar {
+    display: none; /* Hide scrollbar in Chrome/Safari */
+  }
+  
+  .main-content {
+    padding: 16px;
+  }
+  
+  .footer-container {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+    padding: 20px 16px;
+  }
+  
+  .tab-intro {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .tab-intro button {
+    align-self: flex-start;
+  }
+
+  .metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .responsive-grid-2 {
+    grid-template-columns: 1fr;
+  }
+  
+  .wage-picker-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .averages-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .ror-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    text-align: left;
+  }
+  
+  .ror-card > div:last-child {
+    text-align: left !important;
+  }
+  
+  .modal-card-content {
+    width: 90% !important;
+    max-width: 480px;
+    padding: 20px !important;
+  }
+}
+
+/* Media Queries for Viewports <= 600px */
+@media (max-width: 600px) {
+  .search-actions-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .search-actions-header > div {
+    max-width: 100% !important;
+  }
+  
+  .loading-factors-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Media Queries for Viewports <= 480px */
+@media (max-width: 480px) {
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .wage-picker-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .averages-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .pricing-fields-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .modal-form-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -114,7 +114,7 @@ export default function LaborTab({ isAdmin }: { isAdmin: boolean }) {
         <h2 style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--color-pine)', margin: '0 0 14px' }}>
           {branch.display_label} · Loading factors
         </h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 }}>
+        <div className="loading-factors-grid">
           <LabeledField label="Workers' Comp Rate" value={branch.wc_rate} disabled={!isAdmin} onChange={(v) => updateBranch('wc_rate', v)} suffix="(decimal)" />
           <LabeledField label="P/R Taxes Rate" value={branch.pr_rate} disabled={!isAdmin} onChange={(v) => updateBranch('pr_rate', v)} suffix="(decimal)" />
           <LabeledField label="Medical / Hour" value={branch.medical_per_hr} disabled={!isAdmin} onChange={(v) => updateBranch('medical_per_hr', v)} prefix="$" />
@@ -146,7 +146,7 @@ export default function LaborTab({ isAdmin }: { isAdmin: boolean }) {
           )}
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 12 }}>
+        <div className="wage-picker-grid">
           {classifications.map((cls) => {
             const options = buildOptions(cls.label);
             const currentValue = branchSel[cls.label] || 'AVG';
@@ -204,7 +204,7 @@ export default function LaborTab({ isAdmin }: { isAdmin: boolean }) {
             Hourly cost build-up
           </h2>
         </div>
-        <div style={{ overflowX: 'auto' }}>
+        <div className="responsive-table-wrapper">
           <table style={{ minWidth: 1180 }}>
             <thead>
               <tr>

@@ -63,7 +63,7 @@ export default function EquipmentTab({ isAdmin }: { isAdmin: boolean }) {
         </p>
       </div>
 
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, gap: 12 }}>
+      <div className="search-actions-header">
         <div style={{ position: 'relative', maxWidth: 320, flex: 1 }}>
           <Search size={14} style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: 'var(--color-muted)' }} />
           <input type="text" placeholder="Search by truck # or name..."
@@ -81,7 +81,7 @@ export default function EquipmentTab({ isAdmin }: { isAdmin: boolean }) {
       </div>
 
       <div className="card" style={{ overflow: 'hidden' }}>
-        <div style={{ overflowX: 'auto', maxHeight: 600 }}>
+        <div className="responsive-table-wrapper" style={{ maxHeight: 600 }}>
           <table style={{ minWidth: 980 }}>
             <thead style={{ position: 'sticky', top: 0, zIndex: 1 }}>
               <tr>
@@ -167,9 +167,9 @@ function AddEquipmentModal({ onAdd, onClose }: {
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="card modal-content" style={{ padding: 28, width: 480, background: 'var(--color-paper)' }} onClick={(e) => e.stopPropagation()}>
+      <div className="card modal-content modal-card-content" onClick={(e) => e.stopPropagation()}>
         <h3 style={{ fontSize: 22, fontWeight: 700, margin: '0 0 16px' }}>Add equipment</h3>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12 }}>
+        <div className="modal-form-grid">
           <div>
             <label style={{ fontSize: 11, color: 'var(--color-muted)', fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase', display: 'block', marginBottom: 4 }}>Truck #</label>
             <input className="input-field" value={eq.truck_number} onChange={(e) => upd('truck_number', e.target.value)} />

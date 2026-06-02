@@ -50,7 +50,7 @@ export default function CrewsTab({ isAdmin }: { isAdmin: boolean }) {
   return (
     <div>
       {/* PAGE INTRO */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 24 }}>
+      <div className="tab-intro">
         <div>
           <h1 style={{
             fontSize: 36, fontWeight: 700,
@@ -67,7 +67,7 @@ export default function CrewsTab({ isAdmin }: { isAdmin: boolean }) {
       </div>
 
       {/* BRANCH PILLS + OT TOGGLE */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20, flexWrap: 'wrap', gap: 12 }}>
+      <div className="tab-controls">
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
           {branches.map((b) => (
             <button
@@ -110,7 +110,7 @@ export default function CrewsTab({ isAdmin }: { isAdmin: boolean }) {
       </div>
 
       {/* HEADLINE METRICS */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 24 }}>
+      <div className="metrics-grid">
         <MetricCard label="Hourly Cost" value={fmt$(result.totals.costPerHr)} sub={fmt$0(result.totals.costDay) + ' / 8-hr day'} color="var(--color-pine)" />
         <MetricCard label={`Profit @ ${ctx.whatIf.profit_pct * 100}%`} value={fmt$(result.totals.profitPerHr)} sub={fmt$0(result.totals.profitDay) + ' / 8-hr day'} color="var(--color-ochre)" />
         <MetricCard label="Billable Hourly" value={fmt$(result.totals.billPerHr)} sub={fmt$0(result.totals.billDay) + ' / 8-hr day'} color="var(--color-emerald)" highlight />
@@ -137,7 +137,8 @@ export default function CrewsTab({ isAdmin }: { isAdmin: boolean }) {
           </div>
         </div>
 
-        <table>
+        <div className="responsive-table-wrapper">
+          <table>
           <thead>
             <tr>
               <th style={{ width: 50 }}>#</th>
@@ -233,16 +234,12 @@ export default function CrewsTab({ isAdmin }: { isAdmin: boolean }) {
             </tr>
           </tbody>
         </table>
+        </div>
       </div>
 
       {/* RATE OF RETURN */}
       {result.totals.ror !== null && (
-        <div style={{
-          marginTop: 16, padding: '14px 20px',
-          background: 'var(--color-cream)', borderRadius: 8,
-          border: '1px solid var(--color-border)',
-          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-        }}>
+        <div className="ror-card">
           <div>
             <div style={{ fontSize: 11, color: 'var(--color-muted)', letterSpacing: '0.08em', fontWeight: 500 }}>
               RATE OF RETURN (PER LABOR SEAT, 8-HR DAY)

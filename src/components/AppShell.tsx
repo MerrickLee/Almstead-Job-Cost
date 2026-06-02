@@ -81,8 +81,8 @@ export default function AppShell() {
           zIndex: 50,
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+        <div className="header-container">
+          <div className="header-left">
             {/* Logo */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
               <div style={{ width: 44, height: 44, position: 'relative' }}>
@@ -136,7 +136,7 @@ export default function AppShell() {
           </div>
 
           {/* Right side: View toggle + sign out */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <div className="header-right">
             {canAdmin && (
               <div
                 style={{
@@ -213,7 +213,7 @@ export default function AppShell() {
         </div>
 
         {/* ==================== TABS ==================== */}
-        <nav style={{ display: 'flex', gap: 4, marginTop: 18, marginBottom: -19 }}>
+        <nav className="tabs-nav">
           {tabs.map((t) => {
             const Icon = t.icon;
             const isActive = activeTab === t.id;
@@ -252,7 +252,7 @@ export default function AppShell() {
       </header>
 
       {/* ==================== CONTENT ==================== */}
-      <main style={{ padding: 32, maxWidth: 1480, margin: '0 auto' }}>
+      <main className="main-content">
         <div className="animate-fade-in">
           {activeTab === 'crews' && <CrewsTab isAdmin={isAdmin} />}
           {activeTab === 'whatif' && <WhatIfTab isAdmin={isAdmin} />}
@@ -263,19 +263,7 @@ export default function AppShell() {
       </main>
 
       {/* ==================== FOOTER ==================== */}
-      <footer
-        style={{
-          marginTop: 60,
-          padding: '20px 32px',
-          background: 'var(--color-forest)',
-          color: 'var(--color-fern)',
-          fontSize: 11,
-          letterSpacing: '0.05em',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
+      <footer className="footer-container">
         <span>ALMSTEAD TREE, SHRUB & LAWN CARE · FOUNDED 1964</span>
         <span>Replaces the legacy product-costing workbook</span>
       </footer>
